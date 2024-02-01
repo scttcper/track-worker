@@ -1,0 +1,69 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@master
+      - name: setup node
+        uses: actions/setup-node@master
+        with:
+          node-version: 20
+          cache: 'pnpm'
+      - name: install dependencies
+        run: pnpm install
+      - name: lint
+        run: npm run lint
+      - name: test
+        run: npm run test:ci
+      # - name: tsc
+      #   run: npm run tsc
+  deploy:
+    name: deploy
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref_name == 'main'
+    steps:
+      - name: checkout
+        uses: actions/checkout@master
+        with:
+          fetch-depth: 0
+      - name: setup node
+        uses: actions/setup-node@master
+        with:
+          node-version: 20
+          cache: 'pnpm'
+      - name: install dependencies
+        run: pnpm install
+      - name: modify wrangler
+        run: echo 'COMMIT_HASH="${{ github.sha }}"' >> wrangler.toml
+      - name: modify wrangler
+        run: echo 'ENVIRONMENT="production"' >> wrangler.toml
+      - name: Build
+        run: npm run build
+      - name: Publish
+        run: npx wrangler deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          NO_D1_WARNING: true
+      - name: Create Sentry release
+        run: |
+          curl -sL https://sentry.io/get-cli/ | bash
+          export SENTRY_RELEASE=$(sentry-cli releases propose-version)
+          sentry-cli releases new -p $SENTRY_PROJECT $SENTRY_RELEASE
+          sentry-cli releases set-commits $SENTRY_RELEASE --auto
+          sentry-cli releases files $SENTRY_RELEASE upload-sourcemaps ./.wrangler/build
+          sentry-cli releases finalize $SENTRY_RELEASE
+          sentry-cli releases deploys $SENTRY_RELEASE new -e $SENTRY_ENVIRONMENT
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: scooper
+          SENTRY_PROJECT: scrdb-worker
+          SENTRY_ENVIRONMENT: production
