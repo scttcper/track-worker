@@ -52,17 +52,21 @@ const loginSchema = z.object({
   password: z.string(),
 });
 
+const expectedUsername = 'cooper';
+const expectedPassword = 'itsmorphintime';
+const secret = 'ce56a3b5d406e9fa57648d635e40fb5c31fe0da9475601f2c264d7b1d817dcdd';
+
 /**
  * Handle basic auth
  */
 app.post('/auth/login', zValidator('form', loginSchema), async c => {
   const { username, password } = c.req.valid('form');
-  if (username !== 'admin' || password !== 'password') {
+  if (username !== expectedUsername || password !== expectedPassword) {
     c.status(401);
     return c.json({ success: false });
   }
 
-  const token = await sign({ username, password }, 'it-is-very-secret');
+  const token = await sign({ username, password }, secret);
   setCookie(c, 'Authorization', token);
   return c.json({ success: true });
 });
@@ -72,11 +76,16 @@ app.use(
   sentry(),
   jwt({
     cookie: 'Authorization',
-    secret: 'it-is-very-secret',
+    secret,
   }),
 );
 
 app.get('/api/status', c => c.json({ status: 'ok' }));
+app.get(
+  '/api/search',
+  zValidator('query', z.object({ title: z.string(), artists: z.string() })),
+  c => c.json({ results: [], query: c.req.valid('query') }),
+);
 
 app.get(
   '/api/page',
@@ -108,6 +117,7 @@ app.get(
     },
   }),
 );
+
 app.get(
   '/assets/*',
   cache({
