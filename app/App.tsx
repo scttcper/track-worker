@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { QueryClient, QueryClientProvider, QueryFunction } from '@tanstack/react-query';
 import { stringify } from 'fast-querystring';
-import ky from 'ky';
+import { ofetch } from 'ofetch';
 
 import { Layout } from './layout/Layout';
 import { Home } from './Home';
@@ -14,7 +14,7 @@ const defaultQueryFn: QueryFunction<any, any> = async ({ queryKey }) => {
   const [route, query = {}] = queryKey;
   const params = stringify(query);
   const url = `/api${route}${params ? '?' : ''}${params}`;
-  return ky.get(url, { timeout: 30_000, retry: 0 }).json();
+  return ofetch(url, { method: 'GET', timeout: 30_000, retry: 0, parseResponse: JSON.parse });
 };
 
 // provide the default query function to your app with defaultOptions

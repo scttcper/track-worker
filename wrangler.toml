@@ -2,6 +2,9 @@ name = "scrdb-worker"
 main = "src/index.ts"
 compatibility_date = "2023-12-01"
 # node_compat = true
+kv_namespaces = [
+  { binding = "TOKEN", id = "dbb1594c25a14e23a8f4a6ba5548a012", preview_id = "e8d30db3dc2f4bbc8c5852b96317fd68" }
+]
 
 [placement]
 mode = "smart"
@@ -13,3 +16,4 @@ bucket = "./dist"
 # must have newline
 [vars]
 SENTRY_DSN="https://222be3dbbb11464fa3d68ac2af81c100@o54215.ingest.sentry.io/4505438514380800"
+SPOTIFY_CLIENT_ID="4fb6547712a1470fba276e0adb4274a4"

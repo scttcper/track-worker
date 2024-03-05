@@ -14,7 +14,9 @@ import { secureHeaders } from 'hono/secure-headers';
 import type { Toucan } from 'toucan-js';
 import { z } from 'zod';
 
-import { sentry } from './sentry';
+import { sentry, wrapRoute } from './sentry.js';
+import { fuzzymatchSong } from './fuzzymatch.js';
+import { searchMusic as spotifySearchMusic } from './spotify/search.js';
 
 export type Message = {
   imdbId: string;
@@ -22,14 +24,15 @@ export type Message = {
 
 export interface Bindings {
   [key: string]: unknown;
+  TOKEN: KVNamespace;
   SENTRY_DSN: string;
   ENVIRONMENT: string;
   COMMIT_HASH: string;
   // APPLE_KEY_ID: string;
   // APPLE_TEAM_ID: string;
   // APPLE_SECRET: string;
-  // SPOTIFY_CLIENT_ID: string;
-  // SPOTIFY_CLIENT_SECRET: string;
+  SPOTIFY_CLIENT_ID: string;
+  SPOTIFY_CLIENT_SECRET: string;
 }
 interface Variables {
   [key: string]: unknown;
@@ -89,6 +92,10 @@ function unauthorizedResponse(opts: {
   });
 }
 
+const filterMinScore = (minScore: number) => (x: { score: number }) =>
+  x.score && x.score >= minScore;
+const defaultMinScore = 18;
+
 app.use('/api/*', sentry(), async (ctx, next) => {
   // based on https://github.com/honojs/hono/blob/main/src/middleware/jwt/index.ts
   const token = getCookie(ctx, 'Authorization');
@@ -130,9 +137,35 @@ app.use('/api/*', sentry(), async (ctx, next) => {
 app.get('/api/status', c => c.json({ status: 'ok' }));
 app.get(
   '/api/search',
-  zValidator('query', z.object({ title: z.string(), artists: z.string() })),
-  c => {
-    return c.json({ query: c.req.valid('query'), results: [] });
+  zValidator(
+    'query',
+    z.object({
+      title: z.string().trim(),
+      artists: z.string().trim(),
+    }),
+  ),
+  wrapRoute(),
+  async c => {
+    const query = c.req.valid('query');
+    const genericQuery = `${query.title} ${query.artists}`;
+    const spotifyResults = await spotifySearchMusic(genericQuery, c);
+    const scores = fuzzymatchSong(
+      query,
+      spotifyResults.map(x => ({
+        id: x.id,
+        title: x.name,
+        isrc: x.external_ids.isrc,
+        artists: x.artists.map(x => x.name).join(' '),
+        album: x.album.name,
+        releaseDate: x.album.release_date,
+      })),
+    );
+
+    const results = spotifyResults
+      .map(result => ({ ...result, score: scores.find(x => x.id === result.id)!.score }))
+      .filter(filterMinScore(defaultMinScore))
+      .sort((a, b) => b.score - a.score);
+    return c.json({ query: c.req.valid('query'), results });
   },
 );
 

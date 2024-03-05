@@ -1,6 +1,7 @@
-import { FormEvent, useEffect } from 'react';
+import { FormEvent } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
+import type { SpotifyTrack } from '../src/spotify/search.type';
 
 export function Home() {
   const location = useLocation();
@@ -9,7 +10,7 @@ export function Home() {
   const title = queryParms.get('title') ? queryParms.get('title')! : '';
   const artists = queryParms.get('artists') ? queryParms.get('artists')! : '';
   const noQuery = !title || !artists;
-  const { isLoading, isError } = useQuery({
+  const { data, isLoading, isError, refetch } = useQuery<any>({
     queryKey: [
       '/search',
       {
@@ -20,13 +21,20 @@ export function Home() {
     enabled: !noQuery,
   });
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     console.log(formData.get('title'), formData.get('artists'));
     const newParams = new URLSearchParams();
     newParams.set('title', formData.get('title') as string);
     newParams.set('artists', formData.get('artists') as string);
+
+    // params are the same
+    if (newParams.toString() === location.search.slice(1)) {
+      refetch();
+      return;
+    }
+
     navigate(`${location.pathname}?${newParams.toString()}`, { replace: true });
   };
 
@@ -82,7 +90,17 @@ export function Home() {
             </div>
           </form>
         </div>
-        <div className="space-y-12">hello</div>
+        <div className="space-y-12">
+          {data?.results?.map((result: SpotifyTrack) => {
+            return (
+              <div>
+                <div>{result.name}</div>
+                <div>{result.album.name}</div>
+                <div>{result.artists.map(artist => artist.name).join(', ')}</div>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
