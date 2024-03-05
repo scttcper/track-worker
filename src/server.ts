@@ -1,17 +1,20 @@
+// @ts-expect-error
+import manifest from '__STATIC_CONTENT_MANIFEST';
 import { zValidator } from '@hono/zod-validator';
 import type { Transaction } from '@sentry/types';
+import { sign, verify } from '@tsndr/cloudflare-worker-jwt';
 import { Hono, MiddlewareHandler } from 'hono';
 import { bearerAuth } from 'hono/bearer-auth';
 import { cache } from 'hono/cache';
 import { serveStatic } from 'hono/cloudflare-workers';
-import { setCookie } from 'hono/cookie';
+import { getCookie, setCookie } from 'hono/cookie';
 import { etag } from 'hono/etag';
-import { jwt, sign } from 'hono/jwt';
+import { HTTPException } from 'hono/http-exception';
 import { secureHeaders } from 'hono/secure-headers';
-import { Toucan } from 'toucan-js';
+import type { Toucan } from 'toucan-js';
 import { z } from 'zod';
 
-import { sentry } from './sentry.js';
+import { sentry } from './sentry';
 
 export type Message = {
   imdbId: string;
@@ -43,7 +46,7 @@ interface HonoContext {
 const app = new Hono<HonoContext>();
 export type Context = Parameters<MiddlewareHandler<HonoContext>>[0];
 
-// app.use('*', logger());
+// // app.use('*', logger());
 app.use('*', etag());
 app.use('*', secureHeaders());
 
@@ -71,20 +74,66 @@ app.post('/auth/login', zValidator('form', loginSchema), async c => {
   return c.json({ success: true });
 });
 
-app.use(
-  '/api/*',
-  sentry(),
-  jwt({
-    cookie: 'Authorization',
-    secret,
-  }),
-);
+function unauthorizedResponse(opts: {
+  ctx: Context;
+  error: string;
+  errDescription: string;
+  statusText?: string;
+}) {
+  return new Response('Unauthorized', {
+    status: 401,
+    statusText: opts.statusText,
+    headers: {
+      'WWW-Authenticate': `Bearer realm="${opts.ctx.req.url}",error="${opts.error}",error_description="${opts.errDescription}"`,
+    },
+  });
+}
+
+app.use('/api/*', sentry(), async (ctx, next) => {
+  // based on https://github.com/honojs/hono/blob/main/src/middleware/jwt/index.ts
+  const token = getCookie(ctx, 'Authorization');
+
+  if (!token) {
+    throw new HTTPException(401, {
+      res: unauthorizedResponse({
+        ctx,
+        error: 'invalid_request',
+        errDescription: 'no authorization included in request',
+      }),
+    });
+  }
+
+  let payload;
+  let msg = '';
+  try {
+    payload = await verify(token, secret);
+  } catch (e: any) {
+    msg = `${e}`;
+  }
+
+  if (!payload) {
+    throw new HTTPException(401, {
+      res: unauthorizedResponse({
+        ctx,
+        error: 'invalid_token',
+        statusText: msg,
+        errDescription: 'token verification failure',
+      }),
+    });
+  }
+
+  ctx.set('jwtPayload', payload);
+
+  await next();
+});
 
 app.get('/api/status', c => c.json({ status: 'ok' }));
 app.get(
   '/api/search',
   zValidator('query', z.object({ title: z.string(), artists: z.string() })),
-  c => c.json({ results: [], query: c.req.valid('query') }),
+  c => {
+    return c.json({ query: c.req.valid('query'), results: [] });
+  },
 );
 
 app.get(
@@ -115,6 +164,7 @@ app.get(
     rewriteRequestPath() {
       return '/index.html';
     },
+    manifest,
   }),
 );
 
@@ -124,7 +174,7 @@ app.get(
     cacheName: 'scrdb-assets',
     cacheControl: 'public, max-age=31536000, immutable',
   }),
-  serveStatic({ root: './' }),
+  serveStatic({ root: './', manifest }),
 );
 
 app.get('*', async (ctx, next) => {
@@ -135,6 +185,7 @@ app.get('*', async (ctx, next) => {
       rewriteRequestPath() {
         return '/index.html';
       },
+      manifest,
     })(ctx, next);
   }
 

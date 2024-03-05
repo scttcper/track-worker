@@ -1,43 +1,8 @@
 {
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
-  "vcs": {
-    "enabled": true,
-    "clientKind": "git",
-    "useIgnoreFile": true
-  },
-  "organizeImports": {
-    "enabled": false
-  },
-  "linter": {
-    "enabled": false
-  },
   "files": {
-    "ignoreUnknown": true
+    "ignoreUnknown": true,
+    "ignore": ["dist/*", ".wrangler/*"]
   },
-  "formatter": {
-    "enabled": true,
-    "formatWithErrors": true,
-    "indentStyle": "space",
-    "indentWidth": 2,
-    "lineEnding": "lf"
-  },
-  "javascript": {
-    "formatter": {
-      "enabled": true,
-      "lineWidth": 90,
-      "quoteStyle": "single",
-      "jsxQuoteStyle": "double",
-      "quoteProperties": "asNeeded",
-      "trailingComma": "all",
-      "semicolons": "always",
-      "arrowParentheses": "asNeeded",
-      "bracketSpacing": true,
-      "bracketSameLine": false
-    }
-  },
-  "json": {
-    "formatter": {
-      "enabled": true
-    }
-  }
+  "extends": ["./node_modules/@ctrl/eslint-config-biome/biome.json"]
 }
