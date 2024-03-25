@@ -99,7 +99,7 @@ function unauthorizedResponse(opts: {
 
 const filterMinScore = (minScore: number) => (x: { score: number }) =>
   x.score && x.score >= minScore;
-const defaultMinScore = 0.5;
+const defaultMinScore = 1.1;
 
 app.use('/api/*', sentry(), async (ctx, next) => {
   // based on https://github.com/honojs/hono/blob/main/src/middleware/jwt/index.ts
