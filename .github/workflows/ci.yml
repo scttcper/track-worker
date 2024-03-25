@@ -12,13 +12,19 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@master
-      - name: setup node
-        uses: actions/setup-node@master
+
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 8
+
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'pnpm'
-      - name: install dependencies
+          cache: "pnpm"
+
+      - name: install
         run: pnpm install
+
       - name: lint
         run: npm run lint
       - name: test
@@ -35,11 +41,13 @@ jobs:
         uses: actions/checkout@master
         with:
           fetch-depth: 0
-      - name: setup node
-        uses: actions/setup-node@master
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 8
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'pnpm'
+          cache: "pnpm"
       - name: install dependencies
         run: pnpm install
       - name: modify wrangler
