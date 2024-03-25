@@ -1,6 +1,6 @@
 name = "scrdb-worker"
 main = "src/index.ts"
-compatibility_date = "2023-12-01"
+compatibility_date = "2024-03-18"
 # node_compat = true
 kv_namespaces = [
   { binding = "TOKEN", id = "dbb1594c25a14e23a8f4a6ba5548a012", preview_id = "e8d30db3dc2f4bbc8c5852b96317fd68" }
