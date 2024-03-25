@@ -74,5 +74,5 @@
     "vitest": "1.4.0",
     "wrangler": "3.37.0"
   },
-  "repository": "scttcper/scrdb-worker"
+  "repository": "scttcper/track-worker"
 }

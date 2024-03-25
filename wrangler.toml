@@ -1,4 +1,4 @@
-name = "scrdb-worker"
+name = "track-worker"
 main = "src/index.ts"
 compatibility_date = "2024-03-18"
 # node_compat = true
