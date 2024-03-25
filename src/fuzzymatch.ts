@@ -48,9 +48,9 @@ const cleanString = (str: string) =>
  */
 export function fuzzymatchSong(inputSong: InputSong, songList: ResultSong[]) {
   const trackSet = fuzzySet(songList.map(x => cleanString(x.title)));
-  const titleScores = trackSet.get(cleanString(inputSong.title));
+  const titleScores = trackSet.get(cleanString(inputSong.title), undefined, 0.1);
   const artistSet = fuzzySet(songList.map(x => cleanString(x.artists)));
-  const artistScores = artistSet.get(cleanString(inputSong.artists));
+  const artistScores = artistSet.get(cleanString(inputSong.artists), undefined, 0.1);
   const albumSet = inputSong.album ? fuzzySet(songList.map(x => x.album ?? '')) : null;
   const albumScores = inputSong.album ? albumSet?.get(inputSong.album ?? '') : null;
 
@@ -64,11 +64,11 @@ export function fuzzymatchSong(inputSong: InputSong, songList: ResultSong[]) {
 
       console.log({
         title: song.title,
-        titleScore: titleScore,
+        titleScore,
         artist: song.artists,
-        artistScore: artistScore,
+        artistScore,
         album: song.album,
-        albumScore: albumScore,
+        albumScore,
       });
 
       const isrcScore = inputSong.isrc && song.isrc === inputSong.isrc ? 10 : 0;

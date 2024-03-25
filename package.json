@@ -10,7 +10,7 @@
     "lint:eslint": "eslint --ext .ts,.tsx .",
     "lint:fix": "pnpm run '/^(lint:biome|lint:eslint):fix$/'",
     "lint:eslint:fix": "eslint --ext .ts,.tsx . --fix",
-    "lint:biome:fix": "biome check . --apply",
+    "lint:biome:fix": "biome check . --apply-unsafe",
     "tsc": "tsc",
     "build:vite": "vite build",
     "build:wrangler": "wrangler deploy --dry-run --outdir .wrangler/build",

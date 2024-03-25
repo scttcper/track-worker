@@ -72,7 +72,7 @@ app.post('/auth/login', zValidator('form', loginSchema), async c => {
     return c.json({ success: false });
   }
 
-  const token = await sign({ username, password }, secret);
+  const token = await sign({ username }, secret);
   setCookie(c, 'Authorization', token, {
     /**
      * 1 year
@@ -103,6 +103,12 @@ const defaultMinScore = 1.1;
 
 app.use('/api/*', sentry(), async (ctx, next) => {
   // based on https://github.com/honojs/hono/blob/main/src/middleware/jwt/index.ts
+  const authHeader = ctx.req.header('Authorization');
+  if (authHeader === secret) {
+    await next();
+    return;
+  }
+
   const token = getCookie(ctx, 'Authorization');
 
   if (!token) {
@@ -169,7 +175,8 @@ export const search = app.get(
     const results = spotifyResults
       .map(result => ({ ...result, score: scores.find(x => x.id === result.id)!.score }))
       .filter(filterMinScore(defaultMinScore))
-      .sort((a, b) => b.score - a.score);
+      // sort by score then by popularity
+      .sort((a, b) => b.score - a.score || b.popularity - a.popularity);
     return c.json({ query: c.req.valid('query'), results });
   },
 );

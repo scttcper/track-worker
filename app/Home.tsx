@@ -4,7 +4,6 @@ import { useQuery } from '@tanstack/react-query';
 import type { hc, InferResponseType } from 'hono/client';
 
 import type { search } from '../src/server';
-import type { SpotifyTrack } from '../src/spotify/search.type';
 
 type client = ReturnType<typeof hc<typeof search>>;
 type $get = client['api']['search']['$get'];
@@ -17,7 +16,7 @@ export function Home() {
   const title = queryParms.get('title') ? queryParms.get('title')! : '';
   const artists = queryParms.get('artists') ? queryParms.get('artists')! : '';
   const noQuery = !title || !artists;
-  const { data, isLoading, isError, refetch } = useQuery<SearchResponse>({
+  const { data, refetch } = useQuery<SearchResponse>({
     queryKey: [
       '/search',
       {
@@ -109,11 +108,11 @@ export function Home() {
               </div>
               <div>
                 <div className="font-extrabold text-xl tabular-nums">
-                  {result.score.toLocaleString()}
+                  {result.score.toLocaleString()} - {result.popularity.toLocaleString()}
                 </div>
                 <div>
                   <a
-                    className="font-semibold text-cyan-800 text-lg hover:underline"
+                    className="font-semibold text-cyan-800 hover:underline"
                     href={result.external_urls.spotify}
                     target="_blank"
                     rel="noreferrer"
@@ -124,21 +123,20 @@ export function Home() {
                 <div>
                   {result.artists.map(artist => (
                     <a
-                      className="text-cyan-800 hover:underline"
                       key={artist.id}
-                      href={artist.href}
+                      className="mb-3 text-cyan-800 hover:underline"
+                      href={artist.external_urls.spotify}
                       target="_blank"
                       rel="noreferrer"
                     >
-                      {artist.name}
+                      {artist.name}{' '}
                     </a>
                   ))}
                 </div>
                 <div className="text-sm">
-                  Album:{' '}
                   <a
-                    className="text-cyan-800 hover:underline"
                     key={result.album.name}
+                    className="text-cyan-800 hover:underline"
                     href={result.album.external_urls.spotify}
                     target="_blank"
                     rel="noreferrer"

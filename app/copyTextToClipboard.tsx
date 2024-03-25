@@ -22,7 +22,7 @@ function CopyToClipboardButton({ text }: { text: string }) {
   return (
     <button
       type="button"
-      className="rounded-md px-1 py-0.5 text-sm font-medium hover:bg-gray-200/50 hover:text-black"
+      className="rounded-md px-1 py-0.5 font-medium text-sm hover:bg-gray-200/50 hover:text-black"
       title="copy to clipboard"
       onClick={handleClick}
     >
