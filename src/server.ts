@@ -14,9 +14,9 @@ import { secureHeaders } from 'hono/secure-headers';
 import type { Toucan } from 'toucan-js';
 import { z } from 'zod';
 
-import { sentry, wrapRoute } from './sentry.js';
-import { fuzzymatchSong } from './fuzzymatch.js';
 import { searchMusic as spotifySearchMusic } from './spotify/search.js';
+import { fuzzymatchSong } from './fuzzymatch.js';
+import { sentry, wrapRoute } from './sentry.js';
 
 export type Message = {
   imdbId: string;
@@ -73,7 +73,12 @@ app.post('/auth/login', zValidator('form', loginSchema), async c => {
   }
 
   const token = await sign({ username, password }, secret);
-  setCookie(c, 'Authorization', token);
+  setCookie(c, 'Authorization', token, {
+    /**
+     * 1 year
+     */
+    expires: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
+  });
   return c.json({ success: true });
 });
 
@@ -94,7 +99,7 @@ function unauthorizedResponse(opts: {
 
 const filterMinScore = (minScore: number) => (x: { score: number }) =>
   x.score && x.score >= minScore;
-const defaultMinScore = 18;
+const defaultMinScore = 0.5;
 
 app.use('/api/*', sentry(), async (ctx, next) => {
   // based on https://github.com/honojs/hono/blob/main/src/middleware/jwt/index.ts
@@ -135,7 +140,7 @@ app.use('/api/*', sentry(), async (ctx, next) => {
 });
 
 app.get('/api/status', c => c.json({ status: 'ok' }));
-app.get(
+export const search = app.get(
   '/api/search',
   zValidator(
     'query',

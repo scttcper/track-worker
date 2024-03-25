@@ -1,4 +1,5 @@
 import MiniSearch, { SearchResult } from 'minisearch';
+import fuzzySet from 'fuzzyset';
 
 interface InputSong {
   isrc?: string;
@@ -56,14 +57,11 @@ export function fuzzymatchSong(inputSong: InputSong, songList: ResultSong[]) {
   });
   miniSearch.addAll(songList);
 
-  const aritstScores = miniSearch.search(cleanString(inputSong.artists), {
-    fields: ['artist', 'title'],
-    fuzzy: 0.2,
-  });
-  const titleScores = miniSearch.search(cleanString(inputSong.title), {
-    fields: ['title'],
-    fuzzy: 0.2,
-  });
+  const trackSet = fuzzySet(songList.map(x => x.title));
+  const titleScores = trackSet.get(inputSong.title)!;
+  const artistSet = fuzzySet(songList.map(x => x.artists));
+  const artistScores = artistSet.get(inputSong.artists)!;
+
   const albumScores = inputSong.album
     ? miniSearch.search(cleanString(inputSong.album), {
         fields: ['album'],
@@ -91,32 +89,15 @@ export function fuzzymatchSong(inputSong: InputSong, songList: ResultSong[]) {
 
   return songList
     .map(song => {
-      const artistScore = Math.max(
-        cleanString(song.artists) === cleanString(inputSong.artists) ? 10 : 0,
-        cleanString(song.artists).includes(cleanString(inputSong.artists)) ? 5 : 0,
-        (aritstScores.find(track => track.id === song.id)?.score ?? 0) * 2,
-      );
-      const negativeArtistScore = artistScore < 3 ? -95 : 0;
-      // console.log({
-      //   artistScore,
-      //   artist: cleanString(song.artist),
-      //   inputArtist: cleanString(song.artist),
-      //   negativeArtistScore,
-      // });
+      const artistScore = artistScores.find(score => score[1] === song.artists)?.[0] ?? 0;
+      const titleScore = titleScores.find(score => score[1] === song.title)?.[0] ?? 0;
 
-      const titleScore = Math.max(
-        cleanString(song.title) === cleanString(inputSong.title) ? 25 : 0,
-        cleanString(song.title).includes(cleanString(inputSong.title)) ? 10 : 0,
-        (titleScores.find(track => track.id === song.id)?.score ?? 0) * 3,
-      );
-
-      // console.log({
-      //   titleScore,
-      //   title: cleanString(song.title),
-      //   inputTitle: cleanString(inputSong.title),
-      // });
-      const minTitleScore = song.title.length < 5 || inputSong.title.length < 5 ? 1 : 5;
-      const negativeTitleScore = titleScore < minTitleScore ? -75 : 0;
+      console.log({
+        title: song.title,
+        titleScore: titleScore,
+        artist: song.artists,
+        artistScore: artistScore,
+      });
 
       const albumScore = Math.max(
         cleanString(song.album ?? '123') === cleanString(inputSong.album ?? 'abc') ? 15 : 0,
@@ -130,14 +111,7 @@ export function fuzzymatchSong(inputSong: InputSong, songList: ResultSong[]) {
       const isrcScore = inputSong.isrc && song.isrc === inputSong.isrc ? 50 : 0;
       return {
         ...song,
-        score:
-          artistScore +
-          negativeArtistScore +
-          titleScore +
-          negativeTitleScore +
-          albumScore +
-          isrcScore +
-          negativeScore,
+        score: artistScore + titleScore + albumScore + isrcScore + negativeScore,
         titleScore,
         artistScore,
       };
