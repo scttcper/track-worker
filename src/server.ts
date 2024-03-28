@@ -99,7 +99,7 @@ function unauthorizedResponse(opts: {
 
 const filterMinScore = (minScore: number) => (x: { score: number }) =>
   x.score && x.score >= minScore;
-const defaultMinScore = 1.1;
+const defaultMinScore = 0.95;
 
 app.use('/api/*', sentry(), async (ctx, next) => {
   // based on https://github.com/honojs/hono/blob/main/src/middleware/jwt/index.ts
@@ -153,6 +153,7 @@ export const search = app.get(
     z.object({
       title: z.string().trim(),
       artists: z.string().trim(),
+      minScore: z.coerce.number().positive().optional(),
     }),
   ),
   wrapRoute(),
@@ -174,7 +175,7 @@ export const search = app.get(
 
     const results = spotifyResults
       .map(result => ({ ...result, score: scores.find(x => x.id === result.id)!.score }))
-      .filter(filterMinScore(defaultMinScore))
+      .filter(filterMinScore(query.minScore ?? defaultMinScore))
       // sort by score then by popularity
       .sort((a, b) => b.score - a.score || b.popularity - a.popularity);
     return c.json({ query: c.req.valid('query'), results });

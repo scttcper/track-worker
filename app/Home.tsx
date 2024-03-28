@@ -22,6 +22,7 @@ export function Home() {
       {
         title: queryParms.get('title')!,
         artists: queryParms.get('artists')!,
+        minScore: 0.5,
       },
     ],
     enabled: !noQuery,
@@ -108,7 +109,8 @@ export function Home() {
               </div>
               <div>
                 <div className="font-extrabold text-xl tabular-nums">
-                  {result.score.toLocaleString()} - {result.popularity.toLocaleString()}
+                  Score: {result.score.toLocaleString()} - Popularity:{' '}
+                  {result.popularity.toLocaleString()}
                 </div>
                 <div>
                   <a

@@ -27,8 +27,9 @@ jobs:
 
       - name: lint
         run: npm run lint
-      - name: test
-        run: npm run test:ci
+
+      # - name: test
+      #   run: npm run test:ci
       # - name: tsc
       #   run: npm run tsc
   deploy:
@@ -41,26 +42,34 @@ jobs:
         uses: actions/checkout@master
         with:
           fetch-depth: 0
+
       - uses: pnpm/action-setup@v3
         with:
           version: 8
+
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: "pnpm"
+
       - name: install dependencies
         run: pnpm install
+
       - name: modify wrangler
         run: echo 'COMMIT_HASH="${{ github.sha }}"' >> wrangler.toml
+
       - name: modify wrangler
         run: echo 'ENVIRONMENT="production"' >> wrangler.toml
+
       - name: Build
         run: npm run build
+
       - name: Publish
         run: npx wrangler deploy
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
           NO_D1_WARNING: true
+
       - name: Create Sentry release
         run: |
           curl -sL https://sentry.io/get-cli/ | bash

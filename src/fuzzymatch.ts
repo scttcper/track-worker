@@ -62,7 +62,28 @@ export function fuzzymatchSong(inputSong: InputSong, songList: ResultSong[]) {
         artistScores?.find(score => score[1] === cleanString(song.artists))?.[0] ?? -1;
       const albumScore = albumScores?.find(score => score[1] === (song.album ?? ''))?.[0] ?? 0;
 
+      const negativeMatchScore = negativeMatch.reduce((acc, neg) => {
+        if (
+          song.title.toLowerCase().includes(neg.toLowerCase()) ||
+          song.artists.toLowerCase().includes(neg.toLowerCase())
+        ) {
+          return acc - 1;
+        }
+
+        return acc;
+      }, 0);
+
+      // Avoid songs that only match the artist and not the title
+      if (titleScore < 0 && artistScore > 0) {
+        return { ...song, score: -1 };
+      }
+
+      const isrcScore = inputSong.isrc && song.isrc === inputSong.isrc ? 10 : 0;
+      const score =
+        isrcScore + titleScore + artistScore + albumScore + negativeMatchScore + negativeMatchScore;
+
       console.log({
+        score,
         title: song.title,
         titleScore,
         artist: song.artists,
@@ -71,10 +92,9 @@ export function fuzzymatchSong(inputSong: InputSong, songList: ResultSong[]) {
         albumScore,
       });
 
-      const isrcScore = inputSong.isrc && song.isrc === inputSong.isrc ? 10 : 0;
       return {
         ...song,
-        score: artistScore + titleScore + albumScore + isrcScore,
+        score,
         titleScore,
         artistScore,
       };
