@@ -4,16 +4,30 @@ const featExp = /(.*)\(feat\.?(.*)\)$/i;
 const remixExp = /(.*)\((.*) remix\)$/i;
 const exclusiveExp = /(.*)-?\(?exclusive\)?(.*)/i;
 
-interface NormalizeResult {
-  isRemix?: boolean;
-  isExclusive?: boolean;
-}
+const cleanString = (str: string) =>
+  str
+    .trim()
+    .toLowerCase()
+    .replaceAll('+', ' ')
+    .replaceAll('(', '')
+    .replaceAll(')', '')
+    .replaceAll(',', '')
+    .replaceAll(':', '')
+    .replaceAll('.', '')
+    .replaceAll("'", '')
+    .replaceAll(' - ', ' ')
+    .replaceAll('  ', ' ');
 
 /**
  * Take artists found in the title and add them to the artists array
  */
-export function normalizeTrackArtists<T extends InputSong>(track: T): T {
-  const results: NormalizeResult = {};
+export function normalizeTrackArtists<T extends InputSong>(input: T): T {
+  const track = {
+    ...input,
+    title: cleanString(input.title),
+    artists: cleanString(input.artists),
+  };
+
   // Remix
   let match = remixExp.exec(track.title);
   if (match) {
@@ -40,5 +54,5 @@ export function normalizeTrackArtists<T extends InputSong>(track: T): T {
     track.title = match[1].trim() + (match[2] || '').trimEnd();
   }
 
-  return { ...track, results };
+  return track;
 }
