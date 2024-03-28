@@ -175,7 +175,15 @@ export const search = app.get(
     const scores = fuzzymatchSong(normalizeTrackArtists(query), tracks);
 
     const results = spotifyResults
-      .map(result => ({ ...result, score: scores.find(x => x.id === result.id)!.score }))
+      .map(result => {
+        const scoreObj = scores.find(x => x.id === result.id)!;
+        return {
+          ...result,
+          score: scoreObj.score,
+          artistScore: scoreObj.artistScore,
+          titleScore: scoreObj.artistScore,
+        };
+      })
       .filter(filterMinScore(query.minScore ?? defaultMinScore))
       // sort by score then by popularity
       .sort((a, b) => b.score - a.score || b.popularity - a.popularity);

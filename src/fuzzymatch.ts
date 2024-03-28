@@ -64,15 +64,17 @@ export function fuzzymatchSong(inputSong: InputSong, songList: ResultSong[]) {
         score = -1;
       }
 
-      console.log({
-        score,
-        title: song.title,
-        titleScore,
-        artist: song.artists,
-        artistScore,
-        album: song.album,
-        albumScore,
-      });
+      if (score > 0.7) {
+        console.log({
+          score,
+          title: song.title,
+          titleScore,
+          artist: song.artists,
+          artistScore,
+          album: song.album,
+          albumScore,
+        });
+      }
 
       return {
         ...song,

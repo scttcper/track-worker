@@ -113,6 +113,10 @@ export function Home() {
                   {result.popularity.toLocaleString()}
                 </div>
                 <div>
+                  Aritst Score: {result.artistScore.toLocaleString()} - Title Score:{' '}
+                  {result.titleScore.toLocaleString()}
+                </div>
+                <div>
                   <a
                     className="font-semibold text-cyan-800 hover:underline"
                     href={result.external_urls.spotify}
