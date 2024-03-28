@@ -15,5 +15,5 @@ bucket = "./dist"
 # Keep vars last for easy insertion
 # must have newline
 [vars]
-SENTRY_DSN="https://222be3dbbb11464fa3d68ac2af81c100@o54215.ingest.sentry.io/4505438514380800"
+SENTRY_DSN="https://034ae5af15fc670bbe881b6affe5f64a@o54215.ingest.us.sentry.io/4506986928078848"
 SPOTIFY_CLIENT_ID="4fb6547712a1470fba276e0adb4274a4"
