@@ -14,7 +14,7 @@ export async function searchMusic(
   artists: string,
   ctx: Context,
 ): Promise<SpotifyTrack[]> {
-  const query = `artist:${artists} track:${title}`;
+  const query = `${artists} ${title}`;
 
   // Get token
   const tokenSpan = ctx.get('transaction').startChild({
