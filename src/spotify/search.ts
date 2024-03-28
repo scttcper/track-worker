@@ -7,12 +7,19 @@ import { getToken } from './token.js';
 
 /**
  * Search for music on Spotify
+ * @link https://developer.spotify.com/documentation/web-api/reference/search
  */
-export async function searchMusic(query: string, ctx: Context): Promise<SpotifyTrack[]> {
+export async function searchMusic(
+  title: string,
+  artists: string,
+  ctx: Context,
+): Promise<SpotifyTrack[]> {
+  const query = `artist:${artists} track:${title}`;
+
   // Get token
   const tokenSpan = ctx.get('transaction').startChild({
-    description: `getTidalToken`,
-    op: 'getTidalToken',
+    description: `getSpotifyToken`,
+    op: 'getSpotifyToken',
   });
   const token = await getToken(ctx.env);
   tokenSpan.setStatus('ok');

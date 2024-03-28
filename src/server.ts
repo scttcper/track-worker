@@ -160,8 +160,7 @@ export const search = app.get(
   wrapRoute(),
   async c => {
     const query = c.req.valid('query');
-    const genericQuery = `${query.title} ${query.artists}`;
-    const spotifyResults = await spotifySearchMusic(genericQuery, c);
+    const spotifyResults = await spotifySearchMusic(query.title, query.artists, c);
     const tracks = spotifyResults
       .map<ResultSong>(x => ({
         id: x.id,

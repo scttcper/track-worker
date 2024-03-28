@@ -1,7 +1,7 @@
 import { InputSong } from './fuzzymatch';
 
 const featExp = /(.*)\(feat\.?(.*)\)$/i;
-const remixExp = /(.*)\((.*) remix\)$/i;
+const remixExp = /(.*)\((.*) remix\)?$/i;
 const exclusiveExp = /(.*)-?\(?exclusive\)?(.*)/i;
 
 const cleanString = (str: string) =>
@@ -24,8 +24,8 @@ const cleanString = (str: string) =>
 export function normalizeTrackArtists<T extends InputSong>(input: T): T {
   const track = {
     ...input,
-    title: cleanString(input.title),
-    artists: cleanString(input.artists),
+    title: input.title,
+    artists: input.artists,
   };
 
   // Remix
@@ -54,5 +54,9 @@ export function normalizeTrackArtists<T extends InputSong>(input: T): T {
     track.title = match[1].trim() + (match[2] || '').trimEnd();
   }
 
-  return track;
+  return {
+    ...track,
+    title: cleanString(track.title),
+    artists: cleanString(track.artists),
+  };
 }
