@@ -193,7 +193,7 @@ app.get(
 app.get(
   '/robots.txt',
   cache({
-    cacheName: 'scrdb-assets',
+    cacheName: 'track-worker-assets',
     cacheControl: 'public, max-age=86400',
   }),
   async ctx =>
@@ -217,7 +217,7 @@ app.get(
 app.get(
   '/assets/*',
   cache({
-    cacheName: 'scrdb-assets',
+    cacheName: 'track-worker-assets',
     cacheControl: 'public, max-age=31536000, immutable',
   }),
   serveStatic({ root: './', manifest }),

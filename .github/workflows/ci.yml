@@ -82,5 +82,5 @@ jobs:
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
           SENTRY_ORG: scooper
-          SENTRY_PROJECT: scrdb-worker
+          SENTRY_PROJECT: track-worker
           SENTRY_ENVIRONMENT: production
