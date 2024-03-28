@@ -15,7 +15,8 @@ import type { Toucan } from 'toucan-js';
 import { z } from 'zod';
 
 import { searchMusic as spotifySearchMusic } from './spotify/search.js';
-import { fuzzymatchSong } from './fuzzymatch.js';
+import { fuzzymatchSong, ResultSong } from './fuzzymatch.js';
+import { normalizeTrackArtists } from './normalizers.js';
 import { sentry, wrapRoute } from './sentry.js';
 
 export type Message = {
@@ -99,7 +100,7 @@ function unauthorizedResponse(opts: {
 
 const filterMinScore = (minScore: number) => (x: { score: number }) =>
   x.score && x.score >= minScore;
-const defaultMinScore = 0.95;
+const defaultMinScore = 1.1;
 
 app.use('/api/*', sentry(), async (ctx, next) => {
   // based on https://github.com/honojs/hono/blob/main/src/middleware/jwt/index.ts
@@ -161,17 +162,17 @@ export const search = app.get(
     const query = c.req.valid('query');
     const genericQuery = `${query.title} ${query.artists}`;
     const spotifyResults = await spotifySearchMusic(genericQuery, c);
-    const scores = fuzzymatchSong(
-      query,
-      spotifyResults.map(x => ({
+    const tracks = spotifyResults
+      .map<ResultSong>(x => ({
         id: x.id,
         title: x.name,
         isrc: x.external_ids.isrc,
         artists: x.artists.map(x => x.name).join(' '),
         album: x.album.name,
         releaseDate: x.album.release_date,
-      })),
-    );
+      }))
+      .map(normalizeTrackArtists);
+    const scores = fuzzymatchSong(normalizeTrackArtists(query), tracks);
 
     const results = spotifyResults
       .map(result => ({ ...result, score: scores.find(x => x.id === result.id)!.score }))

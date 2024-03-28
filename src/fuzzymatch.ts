@@ -1,6 +1,6 @@
 import fuzzySet from 'fuzzyset';
 
-interface InputSong {
+export interface InputSong {
   isrc?: string;
   title: string;
   artists: string;
@@ -8,7 +8,7 @@ interface InputSong {
   releaseDate?: string;
 }
 
-interface ResultSong extends InputSong {
+export interface ResultSong extends InputSong {
   id: string | number;
 }
 
@@ -73,14 +73,14 @@ export function fuzzymatchSong(inputSong: InputSong, songList: ResultSong[]) {
         return acc;
       }, 0);
 
-      // Avoid songs that only match the artist and not the title
-      if (titleScore < 0 && artistScore > 0) {
-        return { ...song, score: -1 };
-      }
-
       const isrcScore = inputSong.isrc && song.isrc === inputSong.isrc ? 10 : 0;
-      const score =
+      let score =
         isrcScore + titleScore + artistScore + albumScore + negativeMatchScore + negativeMatchScore;
+
+      // Avoid songs that only match the artist and not the title
+      if (titleScore < 0.5 || artistScore < 0.35) {
+        score = -1;
+      }
 
       console.log({
         score,
