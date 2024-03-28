@@ -1,5 +1,4 @@
 import './index.css';
-import '@fontsource/inter';
 
 import ReactDOM from 'react-dom/client';
 
