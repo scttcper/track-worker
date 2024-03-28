@@ -3,6 +3,7 @@ import { InputSong } from './fuzzymatch';
 const featExp = /(.*)\(feat\.?(.*)\)$/i;
 const remixExp = /(.*)\((.*) remix\)?$/i;
 const exclusiveExp = /(.*)-?\(?exclusive\)?(.*)/i;
+const decadeExp = /(.*)\s\(('?)(\d{2})\)$/i;
 
 const cleanString = (str: string) =>
   str
@@ -52,6 +53,12 @@ export function normalizeTrackArtists<T extends InputSong>(input: T): T {
   match = exclusiveExp.exec(track.title);
   if (match) {
     track.title = match[1].trim() + (match[2] || '').trimEnd();
+  }
+
+  // Decade
+  match = decadeExp.exec(track.title);
+  if (match) {
+    track.title = match[1].trim();
   }
 
   return {

@@ -50,4 +50,15 @@ describe('normalizeTrackArtists', () => {
     expect(normalizedTrack.title).toEqual('change of time');
     expect(normalizedTrack.artists).toEqual(track.artists.toLowerCase());
   });
+
+  it('should remove decade and exclusive', () => {
+    const track = {
+      title: 'Change of Time Exclusive (98)',
+      artists: 'Josh Ritter',
+    };
+
+    const normalizedTrack = normalizeTrackArtists(track);
+
+    expect(normalizedTrack.title).toEqual('change of time');
+  });
 });
