@@ -48,7 +48,7 @@ const negativeAlbumMatch = [
   'pop trending',
   // August 2022 Hits
   /^([A-Z][a-z]+) (\d{4}) Hits$/i,
-  /(?\d{4}) Shisha/i,
+  /(\d{4}) Shisha/i,
   /del (\d{4})$/i,
 ];
 
