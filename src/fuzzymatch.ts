@@ -59,12 +59,17 @@ const negativeAlbumMatch = [
   'Let it goooooo',
   'pop edition',
   'Pop Trending',
+  'house party',
+  // western music https://open.spotify.com/album/2AUaQkwZyx52vDbynEfWLD
+  '洋楽',
   'Workout',
   'Dancefloor Country',
   'work out',
   // https://open.spotify.com/album/1QnjCBYyegNxbhiZFflmvl
   'classic summer',
   'road trip',
+  'wedding part',
+  /Années (\d{2,4})/i,
   'roadtrip',
   'feel good',
   'Daily Lift',
@@ -95,7 +100,7 @@ const negativeAlbumMatch = [
   /^([A-Z][a-z]+) (\d{4}) Hits$/i,
   /^(\d{4}).* (Rap|pop) Hits/i,
   // Do not add greatest hits
-  /(rap|pop|chill|clean|party|country|rock|indie|monster) (mix|hits|classics|anthems)$/i,
+  /(rap|pop|chill|clean|party|country|rock|indie|monster|pride) (mix|hits|classics|anthems)$/i,
   /(top|best) (rap|pop|chill|hits|trap|indie|rock|party|country)/i,
   /(rap|pop|chill|hits|trap|indie|rock|party|country).*(\d{4})/i,
   /(\d{4}) Shisha/i,
