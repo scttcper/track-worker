@@ -34,6 +34,8 @@ const negativeAlbumMatch = [
   'dance hits',
   'love songs',
   'trending',
+  // https://open.spotify.com/album/6qZ5OAEVumaniVTF2Sumga
+  'scorpio',
   'viral',
   /(diamond|sleep|sad|trap|fitness|work) rap/i,
   // https://open.spotify.com/album/2t9hQjnXuEmYhzQHNNOJ0o
@@ -42,6 +44,8 @@ const negativeAlbumMatch = [
   'depressing songs',
   'for the boys',
   'Grind & Rap',
+  // https://open.spotify.com/album/6gB36zWBmVc1etQrBe3GKg
+  'throwbacks',
   'Melodic',
   // https://open.spotify.com/album/3sDskF61ndMqZfgi4eMAPv
   /.* playlist .*/i,
@@ -58,6 +62,10 @@ const negativeAlbumMatch = [
   'work out',
   'rap kings',
   'pop trending',
+  // https://open.spotify.com/album/1XKzl5sT6abIyY4dX9LQld
+  'Canciones para',
+  // https://open.spotify.com/album/0cMk2DAaVsPUnLM7qrOtZU
+  'De Chicas',
   /All I Do Is Win \d{4}/i,
   // August 2022 Hits
   /^([A-Z][a-z]+) (\d{4}) Hits$/i,
