@@ -183,6 +183,13 @@ export const search = app.get(
           titleScore: scoreObj.titleScore,
         };
       })
+      .map(x => {
+        const isVariousArtistsAlbum = x.album.artists[0]?.name === 'Various Artists';
+        return {
+          ...x,
+          score: isVariousArtistsAlbum ? -0.5 : 0,
+        };
+      })
       .filter(filterMinScore(query.minScore ?? defaultMinScore))
       // sort by score then by popularity
       .sort((a, b) => b.score - a.score || b.popularity - a.popularity);

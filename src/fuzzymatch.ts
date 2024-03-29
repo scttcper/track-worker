@@ -42,6 +42,7 @@ const negativeAlbumMatch = [
   'sad boi',
   'depressing songs',
   /for the (boys|girls)/i,
+  /picks.*hits/i,
   // https://open.spotify.com/album/6dqjFF9lu7QH7fQxMVFNYr
   'Girls Night Out',
   'Grind & Rap',
@@ -61,6 +62,7 @@ const negativeAlbumMatch = [
   'one hit wonder',
   '1 hit wonder',
   'medley',
+  'rap life',
   'hits bop',
   'Instrumental Hits',
   'Synthesizer Hits',
@@ -72,10 +74,10 @@ const negativeAlbumMatch = [
   // western music https://open.spotify.com/album/2AUaQkwZyx52vDbynEfWLD
   '洋楽',
   'Workout',
+  'running songs',
   'Dancefloor Country',
   'work out',
-  // https://open.spotify.com/album/1QnjCBYyegNxbhiZFflmvl
-  'classic summer',
+  /(classic|hip-hop|disco) summer/,
   'road trip',
   /Années (\d{2,4})/i,
   'roadtrip',
