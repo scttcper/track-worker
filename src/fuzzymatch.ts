@@ -59,7 +59,7 @@ const negativeAlbumMatch = [
   'Let it goooooo',
   'pop edition',
   'Pop Trending',
-  'house party',
+  /(house|wedding|dinner|lunch|bridal) party/i,
   // western music https://open.spotify.com/album/2AUaQkwZyx52vDbynEfWLD
   '洋楽',
   'Workout',
@@ -68,7 +68,6 @@ const negativeAlbumMatch = [
   // https://open.spotify.com/album/1QnjCBYyegNxbhiZFflmvl
   'classic summer',
   'road trip',
-  'wedding part',
   /Années (\d{2,4})/i,
   'roadtrip',
   'feel good',
