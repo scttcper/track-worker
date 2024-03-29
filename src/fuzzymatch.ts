@@ -46,10 +46,12 @@ const negativeAlbumMatch = [
   'work out',
   'rap kings',
   'pop trending',
+  /All I Do Is Win \d{4}/i,
   // August 2022 Hits
   /^([A-Z][a-z]+) (\d{4}) Hits$/i,
   /(\d{4}) Shisha/i,
   /del (\d{4})$/i,
+  'Éxitos',
 ];
 
 /**
@@ -75,7 +77,7 @@ export function fuzzymatchSong(inputSong: InputSong, songList: ResultSong[]) {
 
       const negativeMatchScore = negativeMatch.reduce((acc, neg) => {
         if (song.title.includes(neg.toLowerCase()) || song.artists.includes(neg.toLowerCase())) {
-          return acc - 1;
+          return acc - 2;
         }
 
         return acc;
@@ -83,11 +85,11 @@ export function fuzzymatchSong(inputSong: InputSong, songList: ResultSong[]) {
 
       const negativeAlbumMatchScore = negativeAlbumMatch.reduce((acc, neg) => {
         if (typeof neg === 'string' && song.album?.includes(neg.toLowerCase())) {
-          return acc - 1;
+          return acc - 2;
         }
 
         if (neg instanceof RegExp && song.album && neg.test(song.album)) {
-          return acc - 1;
+          return acc - 2;
         }
 
         return acc;
