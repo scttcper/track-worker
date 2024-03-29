@@ -40,6 +40,14 @@ const negativeAlbumMatch = [
   'Poletni Hiti',
   // https://open.spotify.com/album/1bglwmqZxQg4FGhJH0KJ9o
   'Let it goooooo',
+  'pop edition',
+  'Pop Trending',
+  'work out',
+  'rap kings',
+  'pop trending',
+  // August 2022 Hits
+  /^(?P<Month>[A-Z][a-z]+) (?P<Year>\d{4}) Hits$/i,
+  /(?P<Year>\d{4}) Shisha/i,
 ];
 
 /**
@@ -72,7 +80,11 @@ export function fuzzymatchSong(inputSong: InputSong, songList: ResultSong[]) {
       }, 0);
 
       const negativeAlbumMatchScore = negativeAlbumMatch.reduce((acc, neg) => {
-        if (song.album?.includes(neg.toLowerCase())) {
+        if (typeof neg === 'string' && song.album?.includes(neg.toLowerCase())) {
+          return acc - 1;
+        }
+
+        if (neg instanceof RegExp && song.album && neg.test(song.album)) {
           return acc - 1;
         }
 
