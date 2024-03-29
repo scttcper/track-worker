@@ -1,6 +1,7 @@
 import { InputSong } from './fuzzymatch';
 
 const featExp = /(.*)\(feat\.?(.*)\)$/i;
+const withExp = /(.*)\(with (.*)\)$/i;
 const remixExp = /(.*)\((.*) remix\)?$/i;
 const exclusiveExp = /(.*)-?\(?exclusive\)?(.*)/i;
 const decadeExp = /(.*)\s\(('?)(\d{2})\)$/i;
@@ -41,6 +42,16 @@ export function normalizeTrack<T extends InputSong>(input: T): T {
 
   // Featuring
   match = featExp.exec(track.title);
+  if (match) {
+    track.title = match[1].trim();
+    const newArtist = match[2].trim();
+    if (!track.artists.toLowerCase().includes(newArtist.toLowerCase())) {
+      track.artists = `${track.artists} ${match[2]}`.trim();
+    }
+  }
+
+  // With (basically the same as featuring)
+  match = withExp.exec(track.title);
   if (match) {
     track.title = match[1].trim();
     const newArtist = match[2].trim();

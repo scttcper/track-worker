@@ -42,12 +42,14 @@ const negativeAlbumMatch = [
   'Let it goooooo',
   'pop edition',
   'Pop Trending',
+  'Workout',
   'work out',
   'rap kings',
   'pop trending',
   // August 2022 Hits
   /^(?P<Month>[A-Z][a-z]+) (?P<Year>\d{4}) Hits$/i,
   /(?P<Year>\d{4}) Shisha/i,
+  /del (?P<Year>\d{4})$/i,
 ];
 
 /**
