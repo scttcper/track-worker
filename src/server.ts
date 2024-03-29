@@ -187,7 +187,7 @@ export const search = app.get(
         const isVariousArtistsAlbum = x.album.artists[0]?.name === 'Various Artists';
         return {
           ...x,
-          score: isVariousArtistsAlbum ? -0.5 : 0,
+          score: x.score + (isVariousArtistsAlbum ? -0.5 : 0),
         };
       })
       .filter(filterMinScore(query.minScore ?? defaultMinScore))
