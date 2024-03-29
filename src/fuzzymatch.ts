@@ -35,8 +35,9 @@ const negativeAlbumMatch = [
   'love songs',
   'trending',
   'viral',
-  'diamond rap',
-  'sleep rap',
+  /(diamond|sleep|sad|trap|fitness|work) rap/i,
+  // https://open.spotify.com/album/2t9hQjnXuEmYhzQHNNOJ0o
+  'Del relajo',
   'sad boi',
   'depressing songs',
   'for the boys',
@@ -64,6 +65,7 @@ const negativeAlbumMatch = [
   /^(rap|pop|chill) hits$/i,
   /(rap|pop|trap|rock|chill).*(\d{4})/i,
   /(\d{4}) Shisha/i,
+  /Années (\d{4})/i,
   /del (\d{4})$/i,
   'Éxitos',
 ];
