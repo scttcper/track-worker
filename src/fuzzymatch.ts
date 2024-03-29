@@ -58,7 +58,16 @@ const negativeAlbumMatch = [
   // https://open.spotify.com/album/1bglwmqZxQg4FGhJH0KJ9o
   'Let it goooooo',
   'pop edition',
+  'one hit wonder',
+  '1 hit wonder',
+  'medley',
+  'hits bop',
+  'Instrumental Hits',
+  'Synthesizer Hits',
+  // https://open.spotify.com/album/5ZZo5YG8N5Vqx6va0eHeps
+  'Halloween Parachadito',
   'Pop Trending',
+  'Pop flow',
   /(house|wedding|dinner|lunch|bridal) party/i,
   // western music https://open.spotify.com/album/2AUaQkwZyx52vDbynEfWLD
   '洋楽',
@@ -82,6 +91,8 @@ const negativeAlbumMatch = [
   '2020s',
   // https://open.spotify.com/album/4FLczl7Bu9dTKGvvlfJeqM
   'post covid',
+  /chill (night|vibes)/i,
+  'soulful vibes',
   'Pop Music',
   /clean (Music|pop)/i,
   // https://open.spotify.com/album/06upvuUpFi324oAg68wuIb
@@ -101,7 +112,7 @@ const negativeAlbumMatch = [
   /^([A-Z][a-z]+) (\d{4}) Hits$/i,
   /^(\d{4}).* (Rap|pop) Hits/i,
   // Do not add greatest hits
-  /(rap|pop|chill|clean|party|country|rock|indie|monster|pride) (mix|hits|classics|anthems)$/i,
+  /(rap|pop|chill|clean|party|country|rock|indie|monster|pride) (mix|hits|classics|anthems)/i,
   /(top|best) (rap|pop|chill|hits|trap|indie|rock|party|country)/i,
   /(rap|pop|chill|hits|trap|indie|rock|party|country) (\d{2,4})/i,
   /(\d{4}) Shisha/i,
