@@ -77,7 +77,7 @@ const negativeAlbumMatch = [
   // https://open.spotify.com/album/6hF7auyVipEW3PLKVBm695
   'country feelings',
   'country pop',
-  /hits of the (\d{2,4})/i,
+  /(hits|stars) of the (\d{2,4})/i,
   '2010s',
   '2020s',
   // https://open.spotify.com/album/4FLczl7Bu9dTKGvvlfJeqM
@@ -89,6 +89,8 @@ const negativeAlbumMatch = [
   'Greatest Evergreens',
   'rap kings',
   'pop trending',
+  // decade at start
+  /^(\d{2,4})s/i,
   /study (songs|hits|music)/i,
   // https://open.spotify.com/album/1XKzl5sT6abIyY4dX9LQld
   'Canciones para',
@@ -101,7 +103,7 @@ const negativeAlbumMatch = [
   // Do not add greatest hits
   /(rap|pop|chill|clean|party|country|rock|indie|monster|pride) (mix|hits|classics|anthems)$/i,
   /(top|best) (rap|pop|chill|hits|trap|indie|rock|party|country)/i,
-  /(rap|pop|chill|hits|trap|indie|rock|party|country).*(\d{4})/i,
+  /(rap|pop|chill|hits|trap|indie|rock|party|country) (\d{2,4})/i,
   /(\d{4}) Shisha/i,
   // years
   /Années (\d{4})/i,
