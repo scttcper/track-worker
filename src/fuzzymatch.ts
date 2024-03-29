@@ -62,6 +62,9 @@ const negativeAlbumMatch = [
   'Workout',
   'Dancefloor Country',
   'work out',
+  // https://open.spotify.com/album/1QnjCBYyegNxbhiZFflmvl
+  'classic summer',
+  'feel good',
   'Daily Lift',
   // https://open.spotify.com/album/31sNRfpCMWTCUvegsOo6Au
   'Masterpieces',
@@ -88,8 +91,7 @@ const negativeAlbumMatch = [
   // August 2022 Hits
   /^([A-Z][a-z]+) (\d{4}) Hits$/i,
   /^(\d{4}).* (Rap|pop) Hits/i,
-  /(rap|pop|chill|clean|party|country|rock|indie) mix$/i,
-  /(rap|pop|chill|clean|party|country|rock|indie) hits$/i,
+  /(rap|pop|chill|clean|party|country|rock|indie) (mix|hits|classics|anthems)$/i,
   /(top|best) (rap|pop|chill|hits|trap|indie|rock|party|country)/i,
   /(rap|pop|chill|hits|trap|indie|rock|party|country).*(\d{4})/i,
   /(\d{4}) Shisha/i,

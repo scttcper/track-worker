@@ -180,7 +180,7 @@ export const search = app.get(
           ...result,
           score: scoreObj.score,
           artistScore: scoreObj.artistScore,
-          titleScore: scoreObj.artistScore,
+          titleScore: scoreObj.titleScore,
         };
       })
       .filter(filterMinScore(query.minScore ?? defaultMinScore))
