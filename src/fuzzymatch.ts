@@ -60,8 +60,14 @@ const negativeAlbumMatch = [
   'pop edition',
   'Pop Trending',
   'Workout',
+  'Dancefloor Country',
   'work out',
   'Daily Lift',
+  // https://open.spotify.com/album/31sNRfpCMWTCUvegsOo6Au
+  'Masterpieces',
+  // https://open.spotify.com/album/6hF7auyVipEW3PLKVBm695
+  'country feelings',
+  'country pop',
   '2010s',
   '2020s',
   // https://open.spotify.com/album/4FLczl7Bu9dTKGvvlfJeqM
@@ -73,6 +79,7 @@ const negativeAlbumMatch = [
   'Greatest Evergreens',
   'rap kings',
   'pop trending',
+  /study (songs|hits|music)/i,
   // https://open.spotify.com/album/1XKzl5sT6abIyY4dX9LQld
   'Canciones para',
   // https://open.spotify.com/album/0cMk2DAaVsPUnLM7qrOtZU
@@ -81,10 +88,10 @@ const negativeAlbumMatch = [
   // August 2022 Hits
   /^([A-Z][a-z]+) (\d{4}) Hits$/i,
   /^(\d{4}).* (Rap|pop) Hits/i,
-  /(rap|pop|chill|clean|party) mix$/i,
-  /(rap|pop|chill|clean|party) hits$/i,
-  /(top|best) (rap|pop|chill|hits|trap|indie|rock|party)/i,
-  /(rap|pop|chill|hits|trap|indie|rock|party).*(\d{4})/i,
+  /(rap|pop|chill|clean|party|country|rock|indie) mix$/i,
+  /(rap|pop|chill|clean|party|country|rock|indie) hits$/i,
+  /(top|best) (rap|pop|chill|hits|trap|indie|rock|party|country)/i,
+  /(rap|pop|chill|hits|trap|indie|rock|party|country).*(\d{4})/i,
   /(\d{4}) Shisha/i,
   // years
   /Années (\d{4})/i,
