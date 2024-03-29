@@ -36,6 +36,14 @@ const negativeAlbumMatch = [
   'trending',
   'viral',
   'diamond rap',
+  'sleep rap',
+  'sad boi',
+  'depressing songs',
+  'for the boys',
+  'Grind & Rap',
+  'Melodic',
+  // https://open.spotify.com/album/3sDskF61ndMqZfgi4eMAPv
+  /.* playlist .*/i,
   'Rap R&B Trap',
   // https://open.spotify.com/album/17ZfBZIsdXXTRE4TxNP3kv
   'valentines day',
@@ -53,8 +61,8 @@ const negativeAlbumMatch = [
   // August 2022 Hits
   /^([A-Z][a-z]+) (\d{4}) Hits$/i,
   /^(\d{4}).* (Rap|pop) Hits/i,
-  /^(rap|pop) hits$/i,
-  /(rap|pop|trap|rock).*(\d{4})/i,
+  /^(rap|pop|chill) hits$/i,
+  /(rap|pop|trap|rock|chill).*(\d{4})/i,
   /(\d{4}) Shisha/i,
   /del (\d{4})$/i,
   'Éxitos',
