@@ -29,7 +29,6 @@ const negativeAlbumMatch = [
   // https://open.spotify.com/album/1vDJyYjUUvXYJaZmKsukJJ
   'NOW Thats What I Call Music',
   'Karaoke',
-  'top hits',
   'power hits',
   'dance hits',
   'love songs',
@@ -42,7 +41,9 @@ const negativeAlbumMatch = [
   'Del relajo',
   'sad boi',
   'depressing songs',
-  'for the boys',
+  /for the (boys|girls)/i,
+  // https://open.spotify.com/album/6dqjFF9lu7QH7fQxMVFNYr
+  'Girls Night Out',
   'Grind & Rap',
   // https://open.spotify.com/album/6gB36zWBmVc1etQrBe3GKg
   'throwbacks',
@@ -60,6 +61,9 @@ const negativeAlbumMatch = [
   'Pop Trending',
   'Workout',
   'work out',
+  'Daily Lift',
+  'Pop Music',
+  'Greatest Evergreens',
   'rap kings',
   'pop trending',
   // https://open.spotify.com/album/1XKzl5sT6abIyY4dX9LQld
@@ -71,6 +75,7 @@ const negativeAlbumMatch = [
   /^([A-Z][a-z]+) (\d{4}) Hits$/i,
   /^(\d{4}).* (Rap|pop) Hits/i,
   /^(rap|pop|chill) hits$/i,
+  /^(top|best) (rap|pop|chill|hits|trap)/i,
   /(rap|pop|trap|rock|chill).*(\d{4})/i,
   /(\d{4}) Shisha/i,
   /Années (\d{4})/i,
