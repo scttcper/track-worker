@@ -65,6 +65,9 @@ const negativeAlbumMatch = [
   // https://open.spotify.com/album/4FLczl7Bu9dTKGvvlfJeqM
   'post covid',
   'Pop Music',
+  /clean (Music|pop)/i,
+  // https://open.spotify.com/album/06upvuUpFi324oAg68wuIb
+  /songs to sing in/i,
   'Greatest Evergreens',
   'rap kings',
   'pop trending',
