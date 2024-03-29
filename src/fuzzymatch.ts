@@ -64,6 +64,8 @@ const negativeAlbumMatch = [
   'work out',
   // https://open.spotify.com/album/1QnjCBYyegNxbhiZFflmvl
   'classic summer',
+  'road trip',
+  'roadtrip',
   'feel good',
   'Daily Lift',
   // https://open.spotify.com/album/31sNRfpCMWTCUvegsOo6Au
@@ -71,6 +73,7 @@ const negativeAlbumMatch = [
   // https://open.spotify.com/album/6hF7auyVipEW3PLKVBm695
   'country feelings',
   'country pop',
+  /hits of the (\d{2,4})/i,
   '2010s',
   '2020s',
   // https://open.spotify.com/album/4FLczl7Bu9dTKGvvlfJeqM
@@ -91,7 +94,8 @@ const negativeAlbumMatch = [
   // August 2022 Hits
   /^([A-Z][a-z]+) (\d{4}) Hits$/i,
   /^(\d{4}).* (Rap|pop) Hits/i,
-  /(rap|pop|chill|clean|party|country|rock|indie) (mix|hits|classics|anthems)$/i,
+  // Do not add greatest hits
+  /(rap|pop|chill|clean|party|country|rock|indie|monster) (mix|hits|classics|anthems)$/i,
   /(top|best) (rap|pop|chill|hits|trap|indie|rock|party|country)/i,
   /(rap|pop|chill|hits|trap|indie|rock|party|country).*(\d{4})/i,
   /(\d{4}) Shisha/i,
