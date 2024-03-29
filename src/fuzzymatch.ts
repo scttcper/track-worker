@@ -62,6 +62,8 @@ const negativeAlbumMatch = [
   'Workout',
   'work out',
   'Daily Lift',
+  '2010s',
+  '2020s',
   // https://open.spotify.com/album/4FLczl7Bu9dTKGvvlfJeqM
   'post covid',
   'Pop Music',
@@ -79,9 +81,10 @@ const negativeAlbumMatch = [
   // August 2022 Hits
   /^([A-Z][a-z]+) (\d{4}) Hits$/i,
   /^(\d{4}).* (Rap|pop) Hits/i,
-  /^(rap|pop|chill|clean) hits$/i,
-  /^(top|best) (rap|pop|chill|hits|trap|indie|rock)/i,
-  /(rap|pop|chill|hits|trap|indie|rock).*(\d{4})/i,
+  /^(rap|pop|chill|clean|party) mix$/i,
+  /^(rap|pop|chill|clean|party) hits$/i,
+  /^(top|best) (rap|pop|chill|hits|trap|indie|rock|party)/i,
+  /(rap|pop|chill|hits|trap|indie|rock|party).*(\d{4})/i,
   /(\d{4}) Shisha/i,
   // years
   /Années (\d{4})/i,
