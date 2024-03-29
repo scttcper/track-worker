@@ -60,5 +60,9 @@ describe('normalizeTrackArtists', () => {
     const normalizedTrack = normalizeTrack(track);
 
     expect(normalizedTrack.title).toEqual('change of time');
+
+    track.title = 'Here I Go Again (87)';
+    const normalizedTrack2 = normalizeTrack(track);
+    expect(normalizedTrack2.title).toEqual('here i go again');
   });
 });
