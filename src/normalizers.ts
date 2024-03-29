@@ -22,7 +22,7 @@ const cleanString = (str: string) =>
 /**
  * Take artists found in the title and add them to the artists array
  */
-export function normalizeTrackArtists<T extends InputSong>(input: T): T {
+export function normalizeTrack<T extends InputSong>(input: T): T {
   const track = {
     ...input,
     title: input.title,
@@ -65,5 +65,6 @@ export function normalizeTrackArtists<T extends InputSong>(input: T): T {
     ...track,
     title: cleanString(track.title),
     artists: cleanString(track.artists),
+    album: track.album ? cleanString(track.album) : track.album,
   };
 }

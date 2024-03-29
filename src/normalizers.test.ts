@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { normalizeTrackArtists } from './normalizers';
+import { normalizeTrack } from './normalizers';
 
 describe('normalizeTrackArtists', () => {
   it('should remove remix from track title and add artist to artists array', () => {
@@ -9,7 +9,7 @@ describe('normalizeTrackArtists', () => {
       artists: 'Alex Lustig',
     };
 
-    const normalizedTrack = normalizeTrackArtists(track);
+    const normalizedTrack = normalizeTrack(track);
 
     expect(normalizedTrack.title).toBe('snow in the distance');
     expect(normalizedTrack.artists).toBe('alex lustig teen daze');
@@ -21,7 +21,7 @@ describe('normalizeTrackArtists', () => {
       artists: 'Lumineers',
     };
 
-    const normalizedTrack = normalizeTrackArtists(track);
+    const normalizedTrack = normalizeTrack(track);
 
     expect(normalizedTrack.title).toEqual('ho hey');
     expect(normalizedTrack.artists).toEqual(track.artists.toLowerCase());
@@ -33,7 +33,7 @@ describe('normalizeTrackArtists', () => {
       artists: 'Lumineers',
     };
 
-    const normalizedTrack = normalizeTrackArtists(track);
+    const normalizedTrack = normalizeTrack(track);
 
     expect(normalizedTrack.title).toEqual('as it was harry styles cover');
     expect(normalizedTrack.artists).toEqual(track.artists.toLowerCase());
@@ -45,7 +45,7 @@ describe('normalizeTrackArtists', () => {
       artists: 'Josh Ritter',
     };
 
-    const normalizedTrack = normalizeTrackArtists(track);
+    const normalizedTrack = normalizeTrack(track);
 
     expect(normalizedTrack.title).toEqual('change of time');
     expect(normalizedTrack.artists).toEqual(track.artists.toLowerCase());
@@ -57,7 +57,7 @@ describe('normalizeTrackArtists', () => {
       artists: 'Josh Ritter',
     };
 
-    const normalizedTrack = normalizeTrackArtists(track);
+    const normalizedTrack = normalizeTrack(track);
 
     expect(normalizedTrack.title).toEqual('change of time');
   });

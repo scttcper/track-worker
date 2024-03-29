@@ -25,6 +25,23 @@ const negativeMatch = [
   'piano',
 ];
 
+const negativeAlbumMatch = [
+  // https://open.spotify.com/album/1vDJyYjUUvXYJaZmKsukJJ
+  'NOW Thats What I Call Music',
+  'Karaoke',
+  'top hits',
+  'power hits',
+  'dance hits',
+  'love songs',
+  'trending',
+  // https://open.spotify.com/album/17ZfBZIsdXXTRE4TxNP3kv
+  'valentines day',
+  // https://open.spotify.com/album/47Mgjqn7leuLfQsKdTW84K
+  'Poletni Hiti',
+  // https://open.spotify.com/album/1bglwmqZxQg4FGhJH0KJ9o
+  'Let it goooooo',
+];
+
 /**
  * Given an input song and a list of songs, return the best match
  *
@@ -47,7 +64,15 @@ export function fuzzymatchSong(inputSong: InputSong, songList: ResultSong[]) {
       const albumScore = albumScores?.find(score => score[1] === (song.album ?? ''))?.[0] ?? 0;
 
       const negativeMatchScore = negativeMatch.reduce((acc, neg) => {
-        if (song.title.includes(neg) || song.artists.includes(neg)) {
+        if (song.title.includes(neg.toLowerCase()) || song.artists.includes(neg.toLowerCase())) {
+          return acc - 1;
+        }
+
+        return acc;
+      }, 0);
+
+      const negativeAlbumMatchScore = negativeAlbumMatch.reduce((acc, neg) => {
+        if (song.album?.includes(neg.toLowerCase())) {
           return acc - 1;
         }
 
@@ -56,24 +81,28 @@ export function fuzzymatchSong(inputSong: InputSong, songList: ResultSong[]) {
 
       const isrcScore = inputSong.isrc && song.isrc === inputSong.isrc ? 10 : 0;
       let score =
-        isrcScore + titleScore + artistScore + albumScore + negativeMatchScore + negativeMatchScore;
+        isrcScore +
+        titleScore +
+        artistScore +
+        albumScore +
+        negativeMatchScore +
+        negativeMatchScore +
+        negativeAlbumMatchScore;
 
       // Avoid songs that only match the artist and not the title
       if (titleScore < 0.5 || artistScore < 0.35) {
         score = -1;
       }
 
-      if (score > 0.7) {
-        console.log({
-          score,
-          title: song.title,
-          titleScore,
-          artist: song.artists,
-          artistScore,
-          album: song.album,
-          albumScore,
-        });
-      }
+      console.log({
+        score,
+        title: song.title,
+        titleScore,
+        artist: song.artists,
+        artistScore,
+        album: song.album,
+        albumScore,
+      });
 
       return {
         ...song,

@@ -16,7 +16,7 @@ import { z } from 'zod';
 
 import { searchMusic as spotifySearchMusic } from './spotify/search.js';
 import { fuzzymatchSong, ResultSong } from './fuzzymatch.js';
-import { normalizeTrackArtists } from './normalizers.js';
+import { normalizeTrack } from './normalizers.js';
 import { sentry, wrapRoute } from './sentry.js';
 
 export type Message = {
@@ -170,8 +170,8 @@ export const search = app.get(
         album: x.album.name,
         releaseDate: x.album.release_date,
       }))
-      .map(normalizeTrackArtists);
-    const scores = fuzzymatchSong(normalizeTrackArtists(query), tracks);
+      .map(normalizeTrack);
+    const scores = fuzzymatchSong(normalizeTrack(query), tracks);
 
     const results = spotifyResults
       .map(result => {
