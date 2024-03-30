@@ -1,5 +1,6 @@
 import { ofetch } from 'ofetch';
 
+import { decadeExp } from '../normalizers.js';
 import type { Context } from '../server.js';
 
 import { SearchResults, SpotifyTrack } from './search.type.js';
@@ -14,7 +15,8 @@ export async function searchMusic(
   artists: string,
   ctx: Context,
 ): Promise<SpotifyTrack[]> {
-  const query = `${artists} ${title}`;
+  const noDecadeTitle = title.match(decadeExp)?.[1]?.trim() ?? title;
+  const query = `${artists} ${noDecadeTitle}`;
 
   // Get token
   const tokenSpan = ctx.get('transaction').startChild({

@@ -161,12 +161,21 @@ export const search = app.get(
   async c => {
     const query = c.req.valid('query');
     const spotifyResults = await spotifySearchMusic(query.title, query.artists, c);
+
+    const matchSpan = c.get('transaction').startChild({
+      description: `matchSongs`,
+      op: 'matchSongs',
+    });
+
     const tracks = spotifyResults
       .map<ResultSong>(x => ({
         id: x.id,
         title: x.name,
         isrc: x.external_ids.isrc,
-        artists: x.artists.map(x => x.name).join(' '),
+        artists: x.artists
+          .map(x => x.name)
+          .sort((a, b) => a.localeCompare(b))
+          .join(' '),
         album: x.album.name,
         releaseDate: x.album.release_date,
       }))
@@ -193,6 +202,10 @@ export const search = app.get(
       .filter(filterMinScore(query.minScore ?? defaultMinScore))
       // sort by score then by popularity
       .sort((a, b) => b.score - a.score || b.popularity - a.popularity);
+
+    matchSpan.setStatus('ok');
+    matchSpan.finish();
+
     return c.json({ query: c.req.valid('query'), results });
   },
 );

@@ -4,7 +4,7 @@ const featExp = /(.*)\(feat\.?(.*)\)$/i;
 const withExp = /(.*)\(with (.*)\)$/i;
 const remixExp = /(.*)\((.*) remix\)?$/i;
 const exclusiveExp = /(.*)-?\(?exclusive\)?(.*)/i;
-const decadeExp = /(.*)\s\(('?)(\d{2})\)$/i;
+export const decadeExp = /(.*)\s\(('?)(\d{2})\)$/i;
 
 const cleanString = (str: string) =>
   str

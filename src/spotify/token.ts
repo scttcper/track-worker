@@ -28,7 +28,6 @@ async function loadToken(env: Context['env']): Promise<SpotifyToken> {
 }
 
 async function getClientCredentialsToken(env: Context['env']): Promise<SpotifyToken> {
-  console.log(env);
   const auth = btoa(`${env.SPOTIFY_CLIENT_ID}:${env.SPOTIFY_CLIENT_SECRET}`);
 
   const params = new URLSearchParams();
