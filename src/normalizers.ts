@@ -76,7 +76,7 @@ export function normalizeTrack<T extends InputSong>(input: T): T {
     track.title = match[1].trim();
     const newArtist = match[2].trim();
     if (!track.artists.toLowerCase().includes(newArtist.toLowerCase())) {
-      track.artists = `${track.artists} ${match[2]}`.trim();
+      track.artists = `${track.artists} ${newArtist}`.trim();
     }
   }
 
