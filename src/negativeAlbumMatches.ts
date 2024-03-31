@@ -108,4 +108,6 @@ export const negativeAlbumMatch = [
   'Hip-Hop-Mix',
   'Party Songs',
   'Legacy of the Beatles',
+  // Garth Brooks isn't on Spotify
+  'Garth Brooks',
 ];
