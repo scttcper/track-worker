@@ -194,9 +194,11 @@ export const search = app.get(
       })
       .map(x => {
         const isVariousArtistsAlbum = x.album.artists[0]?.name === 'Various Artists';
+        // Don't eliminate the option
+        const isHighScore = x.score >= defaultMinScore + 0.5;
         return {
           ...x,
-          score: x.score + (isVariousArtistsAlbum ? -0.5 : 0),
+          score: x.score + (isHighScore && isVariousArtistsAlbum ? -0.5 : 0),
         };
       })
       .filter(filterMinScore(query.minScore ?? defaultMinScore))
