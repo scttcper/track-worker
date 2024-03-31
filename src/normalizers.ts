@@ -5,6 +5,8 @@ const withExp = /(.*)\(with (.*)\)$/i;
 const remixExp = /(.*)\((.*) remix\)?$/i;
 const exclusiveExp = /(.*)-?\(?exclusive\)?(.*)/i;
 export const decadeExp = /(.*)\s\(('?)(\d{2})\)$/i;
+// Match remastered Year, optional (Remastered) and optional (Remastered Year)
+const remasteredExp = /(.*)\s-?\s?\(?remastered( (\d{4}))?\)?$/i;
 
 const cleanString = (str: string) =>
   str
@@ -18,6 +20,7 @@ const cleanString = (str: string) =>
     .replaceAll('.', '')
     .replaceAll("'", '')
     .replaceAll(' - ', ' ')
+    .replace(/\s-$/, '')
     .replaceAll('  ', ' ');
 
 /**
@@ -68,6 +71,12 @@ export function normalizeTrack<T extends InputSong>(input: T): T {
 
   // Decade
   match = decadeExp.exec(track.title);
+  if (match) {
+    track.title = match[1].trim();
+  }
+
+  // Remastered
+  match = remasteredExp.exec(track.title);
   if (match) {
     track.title = match[1].trim();
   }

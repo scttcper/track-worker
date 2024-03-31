@@ -65,4 +65,26 @@ describe('normalizeTrackArtists', () => {
     const normalizedTrack2 = normalizeTrack(track);
     expect(normalizedTrack2.title).toEqual('here i go again');
   });
+
+  it('should remove remastered and year', () => {
+    const track = {
+      title: 'Flying - Remastered 2009',
+      artists: 'The Beatles',
+    };
+
+    const normalizedTrack = normalizeTrack(track);
+
+    expect(normalizedTrack.title).toBe('flying');
+  });
+
+  it('should remove remastered', () => {
+    const track = {
+      title: 'Flying - Remastered',
+      artists: 'The Beatles',
+    };
+
+    const normalizedTrack = normalizeTrack(track);
+
+    expect(normalizedTrack.title).toBe('flying');
+  });
 });

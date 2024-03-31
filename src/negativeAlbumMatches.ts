@@ -107,4 +107,5 @@ export const negativeAlbumMatch = [
   'Twenty Tens',
   'Hip-Hop-Mix',
   'Party Songs',
+  'Legacy of the Beatles',
 ];
