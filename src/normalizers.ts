@@ -1,6 +1,9 @@
 import { InputSong } from './fuzzymatch';
 
-const featExp = /(.*)\(feat\.?(.*)\)$/i;
+// match Flying [feat. The Beatles]
+// match Flying (feat. The Beatles)
+// match Flying (ft. The Beatles)
+const featExp = /(.*)\s(\(|\[)(feat|ft)\.? (.*)(\)|\])/i;
 const withExp = /(.*)\(with (.*)\)$/i;
 const remixExp = /(.*)\((.*) remix\)?$/i;
 const exclusiveExp = /(.*)-?\(?exclusive\)?(.*)/i;
@@ -47,9 +50,9 @@ export function normalizeTrack<T extends InputSong>(input: T): T {
   match = featExp.exec(track.title);
   if (match) {
     track.title = match[1].trim();
-    const newArtist = match[2].trim();
+    const newArtist = match[4].trim();
     if (!track.artists.toLowerCase().includes(newArtist.toLowerCase())) {
-      track.artists = `${track.artists} ${match[2]}`.trim();
+      track.artists = `${track.artists} ${newArtist}`.trim();
     }
   }
 

@@ -93,7 +93,7 @@ export const negativeAlbumMatch = [
   /^([A-Z][a-z]+) (\d{4}) Hits$/i,
   /^(\d{4}).* (Rap|pop) Hits/i,
   // Do not add greatest hits
-  /(rap|pop|chill|clean|party|country|rock|indie|monster|pride) (mix|hits|classics|anthems)/i,
+  /(rap|pop|chill|clean|party|country|rock|indie|monster|prideh|hip\s?hop) (mix|hits|classics|anthems|jams)/i,
   /(top|best) (rap|pop|chill|hits|trap|indie|rock|party|country)/i,
   /(rap|pop|chill|hits|trap|indie|rock|party|country) (\d{2,4})/i,
   /(\d{4}) Shisha/i,
@@ -110,4 +110,6 @@ export const negativeAlbumMatch = [
   'Legacy of the Beatles',
   // Garth Brooks isn't on Spotify
   'Garth Brooks',
+  /.* for lovers$/i,
+  'Future Soul',
 ];

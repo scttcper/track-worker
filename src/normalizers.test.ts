@@ -87,4 +87,27 @@ describe('normalizeTrackArtists', () => {
 
     expect(normalizedTrack.title).toBe('flying');
   });
+
+  it('should remove featuring with square brackets', () => {
+    const track = {
+      title: 'Flying [feat. The Beatles]',
+      artists: 'sample',
+    };
+
+    const normalizedTrack = normalizeTrack(track);
+
+    expect(normalizedTrack.title).toBe('flying');
+    expect(normalizedTrack.artists).toBe('sample the beatles');
+  });
+
+  it('should remove featuring with parenthesis', () => {
+    const track = {
+      title: 'Flying (feat. The Beatles)',
+      artists: 'sample artist',
+    };
+
+    const normalizedTrack = normalizeTrack(track);
+
+    expect(normalizedTrack.title).toBe('flying');
+  });
 });
