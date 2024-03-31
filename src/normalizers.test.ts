@@ -109,5 +109,30 @@ describe('normalizeTrackArtists', () => {
     const normalizedTrack = normalizeTrack(track);
 
     expect(normalizedTrack.title).toBe('flying');
+    expect(normalizedTrack.artists).toBe('sample artist the beatles');
+  });
+
+  it('should remove featuring with full word', () => {
+    const track = {
+      title: 'Flying (featuring The Beatles)',
+      artists: 'sample artist',
+    };
+
+    const normalizedTrack = normalizeTrack(track);
+
+    expect(normalizedTrack.title).toBe('flying');
+    expect(normalizedTrack.artists).toBe('sample artist the beatles');
+  });
+
+  it('should remove featuring with hypen', () => {
+    const track = {
+      title: 'Flying - feat. The Beatles',
+      artists: 'sample artist',
+    };
+
+    const normalizedTrack = normalizeTrack(track);
+
+    expect(normalizedTrack.title).toBe('flying');
+    expect(normalizedTrack.artists).toBe('sample artist the beatles');
   });
 });
