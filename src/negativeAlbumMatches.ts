@@ -112,4 +112,5 @@ export const negativeAlbumMatch = [
   'Garth Brooks',
   /.* for lovers$/i,
   'Future Soul',
+  'tribute to',
 ];

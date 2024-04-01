@@ -135,4 +135,15 @@ describe('normalizeTrackArtists', () => {
     expect(normalizedTrack.title).toBe('flying');
     expect(normalizedTrack.artists).toBe('sample artist the beatles');
   });
+
+  it('should remove remaster', () => {
+    const track = {
+      title: 'Trampled Under Foot - Remaster',
+      artists: 'sample artist',
+    };
+
+    const normalizedTrack = normalizeTrack(track);
+
+    expect(normalizedTrack.title).toBe('trampled under foot');
+  });
 });

@@ -10,7 +10,7 @@ dependencies:
     version: 5.2.0
   '@hono/zod-validator':
     specifier: ^0.2.1
-    version: 0.2.1(hono@4.1.5)(zod@3.22.4)
+    version: 0.2.1(hono@4.1.7)(zod@3.22.4)
   '@js-temporal/polyfill':
     specifier: ^0.4.4
     version: 0.4.4
@@ -36,8 +36,8 @@ dependencies:
     specifier: ^1.0.7
     version: 1.0.7
   hono:
-    specifier: 4.1.5
-    version: 4.1.5
+    specifier: 4.1.7
+    version: 4.1.7
   lodash-es:
     specifier: 4.17.21
     version: 4.17.21
@@ -837,13 +837,13 @@ packages:
       react: 18.2.0
     dev: true
 
-  /@hono/zod-validator@0.2.1(hono@4.1.5)(zod@3.22.4):
+  /@hono/zod-validator@0.2.1(hono@4.1.7)(zod@3.22.4):
     resolution: {integrity: sha512-HFoxln7Q6JsE64qz2WBS28SD33UB2alp3aRKmcWnNLDzEL1BLsWfbdX6e1HIiUprHYTIXf5y7ax8eYidKUwyaA==}
     peerDependencies:
       hono: '>=3.9.0'
       zod: ^3.19.1
     dependencies:
-      hono: 4.1.5
+      hono: 4.1.7
       zod: 3.22.4
     dev: false
 
@@ -2855,8 +2855,8 @@ packages:
     resolution: {integrity: sha512-BXUKIkUuh6cmmxzi5OIbUJxrG8OAk2MqoL1DtO3Wo9D2faJg2ph5ntyuQeLqaHJmzER6H5tllCDA9ZnNe9BVGg==}
     dev: true
 
-  /hono@4.1.5:
-    resolution: {integrity: sha512-3ChJiIoeCxvkt6vnkxJagplrt1YZg3NyNob7ssVeK2PUqEINp4q1F94HzFnvY9QE8asVmbW5kkTDlyWylfg2vg==}
+  /hono@4.1.7:
+    resolution: {integrity: sha512-Qa9/OM64d3we/COpxpJNT8p2IEvXbvRzp2eX4wf48eDvqoU3pBrnbY6zAF2rK878GxkkfCo6yipZXNsPiTrBMQ==}
     engines: {node: '>=16.0.0'}
     dev: false
 

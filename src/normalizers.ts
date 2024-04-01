@@ -3,17 +3,17 @@ import { InputSong } from './fuzzymatch';
 // match Flying [feat. The Beatles]
 // match Flying (feat. The Beatles)
 // match Flying (ft. The Beatles)
-const featExp = /(.*)\s(\(|\[)(feat|ft|featuring)\.? (.*)(\)|\])/i;
+const featExp = /(.*?)\s(\(|\[)(feat|ft|featuring)\.? (.*)(\)|\])/i;
 // match Flying - feat. The Beatles
 // match Flying - featuring The Beatles
 // match Flying - ft. The Beatles
-const featExp2 = /(.*)\s-?\s(feat|ft|featuring)\.? (.*)/i;
+const featExp2 = /(.*?)\s-?\s(feat|ft|featuring)\.? (.*)/i;
 const withExp = /(.*)\(with (.*)\)$/i;
 const remixExp = /(.*)\((.*) remix\)?$/i;
-const exclusiveExp = /(.*)-?\(?exclusive\)?(.*)/i;
+const exclusiveExp = /(.*?)-?\(?exclusive\)?(.*)/i;
 export const decadeExp = /(.*)\s\(('?)(\d{2})\)$/i;
 // Match remastered Year, optional (Remastered) and optional (Remastered Year)
-const remasteredExp = /(.*)\s-?\s?\(?remastered( (\d{4}))?\)?$/i;
+const remasteredExp = /(.*?)\s-?\s?\(?remaster(ed)?( (\d{4}))?\)?$/i;
 
 const cleanString = (str: string) =>
   str
