@@ -198,7 +198,7 @@ export const search = app.get(
         const isHighScore = x.score >= defaultMinScore + 0.5;
         return {
           ...x,
-          score: x.score + (isHighScore && isVariousArtistsAlbum ? -0.5 : 0),
+          score: x.score + (isHighScore && isVariousArtistsAlbum ? -0.7 : 0),
         };
       })
       .filter(filterMinScore(query.minScore ?? defaultMinScore))

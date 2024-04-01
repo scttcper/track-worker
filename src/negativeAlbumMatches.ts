@@ -113,4 +113,10 @@ export const negativeAlbumMatch = [
   /.* for lovers$/i,
   'Future Soul',
   'tribute to',
+  'Pub Songs',
+  'for kids',
+  'Listening Hits',
+  'Bangers',
+  'Boating Music',
+  'Acústico',
 ];

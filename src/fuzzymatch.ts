@@ -26,6 +26,7 @@ const negativeMatch = [
   'in the style',
   'piano',
   'tribute to',
+  'Acústico',
 ];
 
 /**
