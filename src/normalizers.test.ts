@@ -146,4 +146,15 @@ describe('normalizeTrackArtists', () => {
 
     expect(normalizedTrack.title).toBe('trampled under foot');
   });
+
+  it('should remove bonus track', () => {
+    const track = {
+      title: 'Trampled Under Foot - Bonus Track',
+      artists: 'sample artist',
+    };
+
+    const normalizedTrack = normalizeTrack(track);
+
+    expect(normalizedTrack.title).toBe('trampled under foot');
+  });
 });

@@ -93,9 +93,9 @@ export const negativeAlbumMatch = [
   /^([A-Z][a-z]+) (\d{4}) Hits$/i,
   /^(\d{4}).* (Rap|pop) Hits/i,
   // Do not add greatest hits
-  /(rap|pop|chill|clean|party|country|rock|indie|monster|prideh|hip\s?hop) (mix|hits|classics|anthems|jams)/i,
-  /(top|best) (rap|pop|chill|hits|trap|indie|rock|party|country)/i,
-  /(rap|pop|chill|hits|trap|indie|rock|party|country) (\d{2,4})/i,
+  /(rap|pop|chill|clean|party|country|rock|indie|monster|prideh|hip.hop|sports|arena) (mix|hits|classics|anthems|jams)/i,
+  /(top|best|various) (rap|pop|chill|hits|trap|indie|rock|party|country|hip.hop)/i,
+  /(rap|pop|chill|hits|trap|indie|rock|party|country|hip.hop) (\d{2,4})/i,
   /(\d{4}) Shisha/i,
   // years
   /Années (\d{4})/i,
@@ -119,4 +119,13 @@ export const negativeAlbumMatch = [
   'Bangers',
   'Boating Music',
   'Acústico',
+  'wonderful world of the',
+  'Tailgate',
+  // https://open.spotify.com/album/5t8eSxQnMmJwJJ0XWTLpWW
+  /(\d{2}) #1/,
+  'class of',
+  'game day',
+  // https://open.spotify.com/album/6Zf7zn6VOFw5g3D7j3I9Kq
+  'Hip Hop 420',
+  'West Coast Hip-Hop',
 ];

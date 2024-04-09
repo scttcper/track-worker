@@ -14,6 +14,9 @@ const exclusiveExp = /(.*?)-?\(?exclusive\)?(.*)/i;
 export const decadeExp = /(.*)\s\(('?)(\d{2})\)$/i;
 // Match remastered Year, optional (Remastered) and optional (Remastered Year)
 const remasteredExp = /(.*?)\s-?\s?\(?remaster(ed)?( (\d{4}))?\)?$/i;
+const bonusExp = /(.*?)\s-?\s?\(?bonus track\)?$/i;
+
+const simpleTitleCleanupExps = [decadeExp, remasteredExp, bonusExp];
 
 const cleanString = (str: string) =>
   str
@@ -86,16 +89,11 @@ export function normalizeTrack<T extends InputSong>(input: T): T {
     track.title = match[1].trim() + (match[2] || '').trimEnd();
   }
 
-  // Decade
-  match = decadeExp.exec(track.title);
-  if (match) {
-    track.title = match[1].trim();
-  }
-
-  // Remastered
-  match = remasteredExp.exec(track.title);
-  if (match) {
-    track.title = match[1].trim();
+  for (const exp of simpleTitleCleanupExps) {
+    match = exp.exec(track.title);
+    if (match) {
+      track.title = match[1].trim();
+    }
   }
 
   return {
