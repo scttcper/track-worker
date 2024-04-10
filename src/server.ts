@@ -4,7 +4,6 @@ import { zValidator } from '@hono/zod-validator';
 import type { Transaction } from '@sentry/types';
 import { sign, verify } from '@tsndr/cloudflare-worker-jwt';
 import { Hono, MiddlewareHandler } from 'hono';
-import { bearerAuth } from 'hono/bearer-auth';
 import { cache } from 'hono/cache';
 import { serveStatic } from 'hono/cloudflare-workers';
 import { getCookie, setCookie } from 'hono/cookie';
@@ -210,14 +209,6 @@ export const search = app.get(
 
     return c.json({ query: c.req.valid('query'), results });
   },
-);
-
-app.get(
-  '/api/page',
-  bearerAuth({
-    token: 'password',
-  }),
-  c => c.text('You are authorized'),
 );
 
 app.get(

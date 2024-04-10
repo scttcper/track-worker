@@ -1,9 +1,9 @@
-export function Spinner({ height }: { height?: string }) {
+export function Spinner() {
   return (
     <div role="status">
       <svg
         aria-hidden="true"
-        className={`w68 h-${height ?? '6'}mr-2 animate-spin fill-sky-600 text-gray-600`}
+        className="w68 h-6 mr-2 animate-spin fill-black text-gray-300"
         viewBox="0 0 100 101"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
