@@ -10,7 +10,7 @@ import app from './server.js';
  * Learn more at https://developers.cloudflare.com/workers/
  */
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+// biome-ignore lint/suspicious/noEmptyInterface: for later
 export interface Env {
   // Example binding to KV. Learn more at https://developers.cloudflare.com/workers/runtime-apis/kv/
   // MY_KV_NAMESPACE: KVNamespace;

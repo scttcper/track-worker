@@ -93,6 +93,7 @@ export function fuzzymatchSong(inputSong: InputSong, songList: ResultSong[]) {
         artistScore,
         album: song.album,
         albumScore,
+        negativeAlbumMatchScore,
       });
 
       return {

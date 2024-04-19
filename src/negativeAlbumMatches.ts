@@ -56,7 +56,7 @@ export const negativeAlbumMatch = [
   'running songs',
   'Dancefloor Country',
   'work out',
-  /(classic|hip-hop|disco) summer/,
+  /(classic|hip-hop|disco|country) summer/,
   'road trip',
   /Années (\d{2,4})/i,
   'roadtrip',
@@ -120,7 +120,6 @@ export const negativeAlbumMatch = [
   'Boating Music',
   'Acústico',
   'wonderful world of the',
-  'Tailgate',
   // https://open.spotify.com/album/5t8eSxQnMmJwJJ0XWTLpWW
   /(\d{2}) #1/,
   'class of',
@@ -128,4 +127,7 @@ export const negativeAlbumMatch = [
   // https://open.spotify.com/album/6Zf7zn6VOFw5g3D7j3I9Kq
   'Hip Hop 420',
   'West Coast Hip-Hop',
+  'beach vibes',
+  'happy hour',
+  'Country Kinda Love',
 ];
