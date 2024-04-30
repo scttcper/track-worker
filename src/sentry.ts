@@ -27,7 +27,17 @@ export const sentry = (): MiddlewareHandler => async (c, next) => {
     tracesSampleRate: 1.0,
     request: c.req.raw,
     requestDataOptions: {
-      allowedHeaders: /(.*)/,
+      allowedHeaders: [
+        'user-agent',
+        'cf-challenge',
+        'accept-encoding',
+        'accept-language',
+        'cf-ray',
+        'content-length',
+        'content-type',
+        'x-real-ip',
+        'host',
+      ],
       allowedSearchParams: /(.*)/,
     },
     context: hasExecutionContext ? c.executionCtx : new MockContext(),
@@ -44,12 +54,16 @@ export const wrapRoute = (): MiddlewareHandler => async (c, next) => {
     name: c.req.routePath,
     op: 'http.server',
   });
-  const ipAddress = c.req.header('cf-connecting-ip') || c.req.header('x-forwarded-for');
-  if (ipAddress) {
-    sentry.setUser({
-      ip_address: ipAddress,
-    });
-  }
+
+  const request = c.req.raw as any;
+  const colo = request?.cf?.colo ? request.cf.colo : 'UNKNOWN';
+  sentry.setTag('colo', colo);
+
+  // cf-connecting-ip should always be present, but if not we can fallback to XFF.
+  const ipAddress =
+    request.headers.get('cf-connecting-ip') || request.headers.get('x-forwarded-for');
+  const userAgent = request.headers.get('user-agent') || '';
+  sentry.setUser({ ip: ipAddress, userAgent, colo });
 
   sentry.configureScope(scope => {
     scope.setSpan(t);
